@@ -1,0 +1,33 @@
+<h2>Login</h2>
+<section class="login">
+    <?php if($this->error): ?>
+    <p class="error">
+        There were one or more issues with your submission. Please correct them as indicated below.
+    </p>
+    <?php endif;?>
+    <?php
+    $form = $this->form;
+    $form->prepare();
+    $form->setAttribute('action', $this->url(NULL, array('controller'=>'Index', 'action'=>'login')));
+    $form->setAttribute('method', 'post');
+    echo $this->form()->openTag($form);
+    ?>
+    <dl class="zend_form">
+        <dt><?php echo $this->formLabel($form->get('email')); ?></dl>
+        <dd>
+            <?php echo $this->formElement($form->get('email')); ?>
+            <?php echo $this->formElementErrors($form->get('email')); ?>
+        </dd>
+        <dt><?php echo $this->formLabel($form->get('password')); ?></dl>
+        <dd>
+            <?php echo $this->formElement($form->get('password')); ?>
+            <?php echo $this->formElementErrors($form->get('password')); ?>
+        </dd>
+        <dd>
+            <?php echo $this->formElement($form->get('submit')); ?>
+            <?php echo $this->formElementErrors($form->get('submit')); ?>
+        </dd>
+    </dl>
+    <?php echo $this->form()->closeTag($form); ?>
+</section>
+<a href="/users">Back to user module.</a>

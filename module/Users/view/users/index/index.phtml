@@ -1,0 +1,11 @@
+<h1>Welcome to Users Module</h1>
+<!-- Display Current date and time -->
+<?php 
+$date = new DateTime();
+$modified = $date->setTimezone(new DateTimezone("europe/rome"));
+echo '<p> Time: ' . $modified->format( 'G:i:s' ) . '</p>';
+echo '<p> Date: ' . $modified->format( 'd-m-Y' ) . '</p>';
+?>
+
+<a href="/users/index/login">Login</a> | 
+<a href="/users/index/register">New User Registration</a>
