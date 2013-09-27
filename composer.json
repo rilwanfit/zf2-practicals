@@ -15,9 +15,7 @@
         "zf-commons/zfc-user": "dev-master",
         "doctrine/doctrine-orm-module": "0.7.*",
         "zendframework/zend-developer-tools": "dev-master",
-        "zf-commons/zfc-user-doctrine-orm": "dev-master"
+        "zf-commons/zfc-user-doctrine-orm": "dev-master",
+        "zendframework/zftool": "dev-master"
     }
 }
-
-
-
