@@ -1,5 +1,8 @@
-<h2>Login</h2>
-<section class="login">
+<hgroup id="login-title" class="large-margin-bottom">
+        <h1 class="login-title-image">Developr</h1>
+        <h5>&copy; rilwanfit@gmail.com</h5>
+</hgroup>
+
     <?php if($this->error): ?>
     <p class="error">
         There were one or more issues with your submission. Please correct them as indicated below.
@@ -10,24 +13,23 @@
     $form->prepare();
     $form->setAttribute('action', $this->url(NULL, array('controller'=>'login', 'action'=>'process')));
     $form->setAttribute('method', 'post');
+    $form->setAttribute('id', 'form-login');
     echo $this->form()->openTag($form);
     ?>
-    <dl class="zend_form">
-        <dt><?php echo $this->formLabel($form->get('email')); ?></dl>
-        <dd>
-            <?php echo $this->formElement($form->get('email')); ?>
+    <ul class="inputs black-input large">
+                <!-- The autocomplete="off" attributes is the only way to prevent webkit browsers from filling the inputs with yellow -->
+                <li><span class="icon-user mid-margin-right"></span>
+                    <?php echo $this->formElement($form->get('email')); ?>
             <?php echo $this->formElementErrors($form->get('email')); ?>
-        </dd>
-        <dt><?php echo $this->formLabel($form->get('password')); ?></dl>
-        <dd>
-            <?php echo $this->formElement($form->get('password')); ?>
+                    </li>
+                <li><span class="icon-lock mid-margin-right"></span>
+                    <?php echo $this->formElement($form->get('password')); ?>
             <?php echo $this->formElementErrors($form->get('password')); ?>
-        </dd>
-        <dd>
+        </ul>
+
+        <!--<button type="submit" class="button glossy full-width huge">Login</button>-->
+
             <?php echo $this->formElement($form->get('submit')); ?>
             <?php echo $this->formElementErrors($form->get('submit')); ?>
-        </dd>
-    </dl>
     <?php echo $this->form()->closeTag($form); ?>
-</section>
 <a href="/users">Back to user module.</a>

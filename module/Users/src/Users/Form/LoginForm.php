@@ -20,6 +20,10 @@ class LoginForm extends Form {
             'attributes' => array(
                 'type' => 'email',
                 'required' => 'required',
+                'class' => 'input-unstyled',
+                'id' => 'login',
+                'autocomplete' => 'off',
+                'placeholder' => 'Login',
             ),
             'options' => array(
                 'label' => 'Email',
@@ -42,7 +46,11 @@ class LoginForm extends Form {
         $this->add(array(
             'name' => 'password',
             'attributes' => array(
-                'type' => 'password'
+                'type' => 'password',
+                'class' => 'input-unstyled',
+                'id' => 'pass',
+                'autocomplete' => 'off',
+                'placeholder' => 'Password',
             ),
             'options' => array(
                 'label' => 'Password',
@@ -53,7 +61,8 @@ class LoginForm extends Form {
             'name' => 'submit',
             'attributes' => array(
                 'type' => 'submit',
-                'value' => 'Login'
+                'value' => 'Login',
+                'class' => 'button glossy full-width huge'
             ),
         ));
     }
