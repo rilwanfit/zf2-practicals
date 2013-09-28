@@ -8,7 +8,7 @@
     <?php
     $form = $this->form;
     $form->prepare();
-    $form->setAttribute('action', $this->url(NULL, array('controller'=>'Index', 'action'=>'login')));
+    $form->setAttribute('action', $this->url(NULL, array('controller'=>'login', 'action'=>'process')));
     $form->setAttribute('method', 'post');
     echo $this->form()->openTag($form);
     ?>
