@@ -31,20 +31,21 @@ class RegisterForm extends Form {
             ),
             'options' => array(
                 'label' => 'Email',
+                //'multiple' => true, //if you want to allow for mutliple email addresses.
             ),
-            'filters' => array(
-                array( 'name' => 'StringTrim' ),
-            ),
-            'validators' => array(
-                array(
-                    'name' => 'EmailAddress',
-                    'options' => array(
-                        'messages' => array(
-                            \Zend\Validator\EmailAddress::INVALID_FORMAT => 'Email address format is invalid',
-                        ),
-                    ),
-                ),
-            ),
+//            'filters' => array(
+//                array( 'name' => 'StringTrim' ),
+//            ),
+//            'validators' => array(
+//                array(
+//                    'name' => 'EmailAddress',
+//                    'options' => array(
+//                        'messages' => array(
+//                            \Zend\Validator\EmailAddress::INVALID_FORMAT => 'Email address format is invalid',
+//                        ),
+//                    ),
+//                ),
+//            ),
         ));
         
         $this->add(array(
@@ -74,6 +75,43 @@ class RegisterForm extends Form {
             'options' => array(
                 'label' => 'Register',
             )
+        ));
+        
+        
+        //More Form Elements
+        //URL
+        $this->add(array(
+           'name' => 'url',
+            'attributes' => array(
+                'type' => 'url',
+            ),
+            'options' => array(
+                'label' => 'Url',
+            ),
+        ));
+        
+        //Date & Time
+        $this->add(array(
+            'name' => 'date',
+            'attributes' => array(
+                'type' => 'date',
+                'min' => '2012-01-01',
+                'max' => '2020-01-01',
+            ),
+            'options' => array(
+                'label' => 'Date & Time',
+            )
+        ));
+        
+        //Telephone 
+        $this->add(array(
+            'name' => 'telephone',
+            'attributes' => array(
+                'type' => 'number',
+            ),
+            'options' => array(
+                'label' => 'Phone Number',
+            ),
         ));
         
         

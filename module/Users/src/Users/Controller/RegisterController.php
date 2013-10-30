@@ -16,6 +16,17 @@ use Users\Model\User;
 class RegisterController extends AbstractActionController {
 
     public function indexAction() {
+        
+        
+        $lang = $this->getEvent()->getRouteMatch()->getParam('lang', 'en');
+        
+        if(strtolower($lang) != 'en' && strtolower($lang) != 'tm' ) $lang = 'en';
+        
+        $translator = $this->getServiceLocator()->get('translator');
+        $translator->addTranslationFile("phpArray", './module/Users/language/lang.array.'.$lang .'.php');
+        
+        $this->getServiceLocator()->get('ViewHelperManager')->get('translate')->setTranslator($translator);
+        
         $form = new RegisterForm();
         $viewModel = new ViewModel(array(
             'form' => $form

@@ -19,7 +19,6 @@ class LoginForm extends Form {
             'name' => 'email',
             'attributes' => array(
                 'type' => 'email',
-                'required' => 'required',
                 'class' => 'input-unstyled',
                 'id' => 'login',
                 'autocomplete' => 'off',
@@ -27,19 +26,6 @@ class LoginForm extends Form {
             ),
             'options' => array(
                 'label' => 'Email',
-            ),
-            'filters' => array(
-                array( 'name' => 'StringTrim' ),
-            ),
-            'validators' => array(
-                array(
-                    'name' => 'EmailAddress',
-                    'options' => array(
-                        'messages' => array(
-                            \Zend\Validator\EmailAddress::INVALID_FORMAT => 'Email address format is invalid',
-                        ),
-                    ),
-                ),
             ),
         ));
         

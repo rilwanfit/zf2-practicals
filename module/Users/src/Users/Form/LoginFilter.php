@@ -14,11 +14,17 @@ class LoginFilter extends InputFilter {
         $this->add(array(
             'name' => 'email',
             'required' => true,
+            'filters' => array(
+                array( 'name' => 'StringTrim' ),
+            ),
             'validators' => array(
                 array(
                     'name' => 'EmailAddress',
                     'options' => array(
                         'domain' => true,
+                        'messages' => array(
+                            \Zend\Validator\EmailAddress::INVALID_FORMAT => 'Email address format is invalid',
+                        ),
                     ),
                 ),
             ),

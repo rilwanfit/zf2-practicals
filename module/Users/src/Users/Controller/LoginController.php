@@ -18,6 +18,8 @@ use Zend\Json\Json;
  * @author mh rilwan <rilwanfit@gmail.com> <http://mhrilwan.com>
  */
 class LoginController extends AbstractActionController {
+    
+    protected $authservice;
 
     public function indexAction() {
         

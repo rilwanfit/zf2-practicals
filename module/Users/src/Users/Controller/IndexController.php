@@ -24,9 +24,6 @@ class IndexController extends AbstractActionController {
         $view->setTemplate('users/index/new-user');
         return $view;
     }
-    
-   
-    
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace Users\Model;
 
 /**
@@ -12,20 +13,25 @@ class User {
     public $name;
     public $email;
     public $password;
-    
+
     public function setPassword($clearPassword) {
         $this->password = md5($clearPassword);
     }
-    
-    public function exchangeArray( $data ) {
-        $this->name  = ( isset($data['name']) ) ? $data['name'] : null;
+
+    public function exchangeArray($data) {
+        $this->user_id = ( isset($data['user_id']) ) ? $data['user_id'] : null;
+        $this->name = ( isset($data['name']) ) ? $data['name'] : null;
         $this->email = ( isset($data['email']) ) ? $data['email'] : null;
-        
-        if(isset($data['password'])) {
+
+        if (isset($data['password'])) {
             $this->setPassword($data['password']);
         }
     }
-    
+
+    public function getArrayCopy() {
+        return get_object_vars($this);
+    }
+
 }
 
 ?>
