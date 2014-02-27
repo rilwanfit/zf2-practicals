@@ -51,7 +51,7 @@ return array(
 //                        'id'     => '[a-zA-Z0-9_-]*'
 //                    ),
 //                    'defaults' => array(
-//                        'controller' => 'Users\Controller\UserManager',
+//                        'controller' => 'Users\MHRRest\UserManager',
 //                        'action'    => 'index',
 //                    ),
 //                ),

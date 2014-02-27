@@ -139,7 +139,7 @@ msgid "We cannot determine at this time why a 404 was generated."
 msgstr ""
 
 #: ../view/error/404.phtml:34
-msgid "Controller"
+msgid "MHRRest"
 msgstr ""
 
 #: ../view/error/404.phtml:41
