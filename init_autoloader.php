@@ -35,7 +35,7 @@ if ($zf2Path) {
     if (isset($loader)) { 
         $loader->add('Zend', $zf2Path);
     } else {
-        die('dsa');
+
         include $zf2Path . '/Zend/Loader/AutoloaderFactory.php';
         Zend\Loader\AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(

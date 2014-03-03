@@ -15,6 +15,11 @@ use Users\Form\LoginFitler;
 class IndexController extends AbstractActionController {
 
     public function indexAction() {
+
+        // test
+        $userTable = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+
+
         $view = new ViewModel();
         return $view;
     }
