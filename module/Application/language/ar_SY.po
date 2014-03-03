@@ -171,7 +171,7 @@ msgid "We cannot determine at this time why a 404 was generated."
 msgstr "لا يمكنني التحديد لماذا حصل الخطأ 404 في هذا الوقت "
 
 #: ../view/error/404.phtml:34
-msgid "Controller"
+msgid "MHRRest"
 msgstr "المتحكم "
 
 #: ../view/error/404.phtml:41

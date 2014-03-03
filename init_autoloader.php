@@ -30,13 +30,12 @@ $zf2Path = false;
 //} elseif (get_cfg_var('zf2_path')) { // Support for zf2_path directive value
 //    $zf2Path = get_cfg_var('zf2_path');
 //}
-//$zf2Path = '/home/mhrilwan/public_html/vendor/zendframework/zendframework/library';
-$zf2Path = '/vendor/zendframework';
-
+$zf2Path = '/home/mhrilwan/public_html/vendor/zendframework/zendframework/library';
 if ($zf2Path) {
     if (isset($loader)) { 
         $loader->add('Zend', $zf2Path);
     } else {
+
         include $zf2Path . '/Zend/Loader/AutoloaderFactory.php';
         Zend\Loader\AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(
