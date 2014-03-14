@@ -7,7 +7,6 @@ return array(
         'DoctrineORMModule',
       //  'AuthDoctrine',
         'Application',
-      //  'Users',
         'MHRUser'
       //  'MHRRest'
     ),

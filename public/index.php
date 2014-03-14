@@ -1,6 +1,6 @@
 <?php
 
-define('REQUEST_MICROTIME', microtime(true));
+
 
 // Report all PHP errors (see changelog)
 
