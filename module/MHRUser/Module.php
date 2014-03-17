@@ -40,17 +40,17 @@ class Module
     {
         return array(
             'factories' => array(
-                'MHRUser\Model\UserTable' => function($sm) {
-                        $tableGateway = $sm->get('UserTableGateway');
-                        $table = new UserTable($tableGateway);
-                        return $table;
-                    },
-                'UserTableGateway' => function ($sm) {
-                        $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-                        $resultSetPrototype = new ResultSet();
-                        $resultSetPrototype->setArrayObjectPrototype(new User());
-                        return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
-                    },
+//                'MHRUser\Model\UserTable' => function($sm) {
+//                        $tableGateway = $sm->get('UserTableGateway');
+//                        $table = new UserTable($tableGateway);
+//                        return $table;
+//                    },
+//                'UserTableGateway' => function ($sm) {
+//                        $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+//                        $resultSetPrototype = new ResultSet();
+//                        $resultSetPrototype->setArrayObjectPrototype(new User());
+//                        return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
+//                    },
             ),
         );
     }

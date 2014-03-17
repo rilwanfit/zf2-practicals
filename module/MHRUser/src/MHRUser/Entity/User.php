@@ -1,42 +1,95 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mhrilwan
- * Date: 3/13/14
- * Time: 4:51 PM
- */
 
 namespace MHRUser\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-/** @ORM\Entity */
+
+/**
+ * User
+ *
+ * @ORM\Table(name="user")
+ * @ORM\Entity
+ */
 class User
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @var string
+     *
+     * @ORM\Column(name="first_name", type="string", length=64, nullable=true)
      */
-    protected $fullName;
+    private $firstName;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="last_name", type="string", length=64, nullable=true)
+     */
+    private $lastName;
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function getFullName()
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     * @return User
+     */
+    public function setFirstName($firstName)
     {
-        return $this->fullName;
+        $this->firstName = $firstName;
+
+        return $this;
     }
 
-    public function setFullName($value)
+    /**
+     * Get firstName
+     *
+     * @return string 
+     */
+    public function getFirstName()
     {
-        return $this->fullName = $value;
+        return $this->firstName;
     }
 
-} 
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string 
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+}

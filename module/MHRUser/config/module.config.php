@@ -5,7 +5,6 @@
  * Date: 3/5/14
  * Time: 4:44 PM
  */
-
 return array(
     // Doctrine Config
 //    'doctrine' => array(
@@ -22,24 +21,6 @@ return array(
 //            'Application\Entity' => 'application_entities'
 //        )
 //    ),
-
-
-    'doctrine'  => array(
-        'driver' => array(
-            __NAMESPACE__ . '_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'path'  => array(
-                    __DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'
-                )
-            ),
-            'orm_default' => array(
-                'drivers' => array(
-                    __NAMESPACE__ . '/Entity' => __NAMESPACE__ . '_driver'
-                )
-            ),
-        ),
-    ),
 
     'router' => array(
         'routes' => array(
@@ -68,6 +49,22 @@ return array(
     'view_manager' => array(
         'template_path_stack' => array(
             'mhr-user' => __DIR__ . '/../view',
+        ),
+    ),
+    'doctrine'  => array(
+        'driver' => array(
+            'mhruser_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths'  => array(
+                    __DIR__ . '/../src/MHRUser/Entity'
+                )
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'MHRUser\Entity' => 'mhruser_driver'
+                )
+            ),
         ),
     ),
 );
