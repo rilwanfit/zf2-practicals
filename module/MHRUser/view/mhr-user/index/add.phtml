@@ -3,7 +3,26 @@ $title = 'Add new User';
 $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
-<form method="post">
-    fullname: <input type="text" name="first_name"><br>
-    <input type="submit" value="Submit">
-</form>
+
+<?php
+
+$form = $this->form;
+$form->setAttribute('action', $this->url(
+    'mhr-user',
+    array(
+        'action'     => 'add',
+        'controller' => 'index'
+    )
+));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formCollection($form);
+echo $this->form()->closeTag();
+
+?>
+
+<!--<form method="post">-->
+<!--    fullname: <input type="text" name="first_name"><br>-->
+<!--    <input type="submit" value="Submit">-->
+<!--</form>-->

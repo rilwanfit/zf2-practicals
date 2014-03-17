@@ -9,6 +9,9 @@
 namespace MHRUser\Controller;
 
 
+use DoctrineORMModule\Form\Annotation\AnnotationBuilder; //Doctrine Annotations to create a form
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
+
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
@@ -38,37 +41,68 @@ class IndexController extends AbstractActionController
 
     public function addAction()
     {
-        if($this->request->isPost()) {
-            $oUser = new User();
 
-            $oUser->setFirstName($this->getRequest()->getPost('first_name'));
+        $entityManager = $this->getEntityManager();
+
+        $oUser = new User();
+
+        if($this->request->isPost()) {
+
+            $oUser->setFirstName($this->getRequest()->getPost('firstName'));
+            $oUser->setLastName($this->getRequest()->getPost('lastName'));
 
             $this->getEntityManager()->persist($oUser);
             $this->getEntityManager()->flush();
-            $newId = $oUser->getId();
+            //$newId = $oUser->getId();
 
             return $this->redirect()->toRoute('mhr-user');
 
         }
-        return new ViewModel();
+        $builder = new AnnotationBuilder( $entityManager );
+
+        $oForm = $builder->createForm( $oUser );
+
+        $oForm->setHydrator(new DoctrineHydrator($entityManager,'MHRUser\Entity\User'));
+        $oForm->bind($oUser);
+
+        return new ViewModel(array(
+            'form' => $oForm
+        ));
     }
 
 
     public function editAction()
     {
+        $entityManager = $this->getEntityManager();
+
         $id = (int) $this->params()->fromRoute('id', 0);
-        $user = $this->getEntityManager()->find('\MHRUser\Entity\User', $id);
+
+        $oUser = $entityManager->find('\MHRUser\Entity\User', $id);
 
         if ($this->request->isPost()) {
-            $user->setFirstName($this->getRequest()->getPost('first_name'));
+            $oUser->setFirstName($this->getRequest()->getPost('firstName'));
+            $oUser->setLastName($this->getRequest()->getPost('lastName'));
 
-            $this->getEntityManager()->persist($user);
+            $this->getEntityManager()->persist($oUser);
             $this->getEntityManager()->flush();
 
             return $this->redirect()->toRoute('mhr-user');
         }
 
-        return new ViewModel(array('user' => $user));
+        $builder = new AnnotationBuilder( $entityManager );
+
+        $oForm = $builder->createForm( $oUser );
+
+        $oForm->setHydrator(new DoctrineHydrator($entityManager,'MHRUser\Entity\User'));
+        $oForm->bind($oUser);
+
+        return new ViewModel(array(
+            'form' => $oForm,
+            'id'   => $id,
+        ));
+
+
+        //return new ViewModel(array('user' => $user));
     }
 
     public function deleteAction()
