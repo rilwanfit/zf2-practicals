@@ -1,3 +1,19 @@
+DROP TABLE IF EXISTS `role`;
+
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
+  `roleId` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_57698A6AB8C2FD88` (`roleId`),
+  KEY `IDX_57698A6A727ACA70` (`parent_id`),
+  CONSTRAINT `FK_57698A6A727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/*Data for the table `role` */
+
+/*Table structure for table `user` */
+
 DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
@@ -5,8 +21,32 @@ CREATE TABLE `user` (
   `first_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `last_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `displayName` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/*Data for the table `user` */
+
+insert  into `user`(`id`,`first_name`,`last_name`,`email`,`username`,`displayName`,`password`) values (1,'rilwan1','rilwan','',NULL,NULL,''),(2,'rilwan2',NULL,'',NULL,NULL,''),(5,'rilwan2','dsadsa','',NULL,NULL,''),(6,'dsad1','dsadsa2','',NULL,NULL,'');
+
+/*Table structure for table `users_roles` */
+
+DROP TABLE IF EXISTS `users_roles`;
+
+CREATE TABLE `users_roles` (
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `IDX_51498A8EA76ED395` (`user_id`),
+  KEY `IDX_51498A8ED60322AC` (`role_id`),
+  CONSTRAINT `FK_51498A8ED60322AC` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
+  CONSTRAINT `FK_51498A8EA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/*Data for the table `users_roles` */
 
 
 
