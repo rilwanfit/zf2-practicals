@@ -22,7 +22,7 @@ CREATE TABLE `user` (
   `last_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `displayName` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `display_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`)

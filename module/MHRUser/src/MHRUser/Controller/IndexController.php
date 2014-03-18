@@ -12,6 +12,7 @@ namespace MHRUser\Controller;
 use DoctrineORMModule\Form\Annotation\AnnotationBuilder; //Doctrine Annotations to create a form
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
+use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
@@ -24,6 +25,12 @@ class IndexController extends AbstractActionController
      * @var Doctrine\ORM\EntityManager
      */
     protected $em;
+
+
+    /**
+     * @var Form
+     */
+    protected $registerForm;
 
     /**
      * Index action displays a list of all the users
@@ -42,28 +49,38 @@ class IndexController extends AbstractActionController
     public function addAction()
     {
 
+        $oForm = $this->getRegisterForm();
+
         $entityManager = $this->getEntityManager();
 
         $oUser = new User();
 
         if($this->request->isPost()) {
+            $oForm->setData($this->request->getPost());
+            if($oForm->isValid()) {
+                //$oUser->setFirstName($this->getRequest()->getPost('firstName'));
+                //$oUser->setLastName($this->getRequest()->getPost('lastName'));
 
-            $oUser->setFirstName($this->getRequest()->getPost('firstName'));
-            $oUser->setLastName($this->getRequest()->getPost('lastName'));
+                $oUser->setUsername($this->getRequest()->getPost('username'));
+                $oUser->setEmail($this->getRequest()->getPost('email'));
+                $oUser->setDisplayName($this->getRequest()->getPost('display_name'));
+                $oUser->setPassword($this->getRequest()->getPost('password'));
 
-            $this->getEntityManager()->persist($oUser);
-            $this->getEntityManager()->flush();
-            //$newId = $oUser->getId();
+                $entityManager->persist($oUser);
+                $entityManager->flush();
+                //$newId = $oUser->getId();
 
-            return $this->redirect()->toRoute('mhr-user');
+                return $this->redirect()->toRoute('mhr-user');
+            }
 
         }
-        $builder = new AnnotationBuilder( $entityManager );
 
-        $oForm = $builder->createForm( $oUser );
-
-        $oForm->setHydrator(new DoctrineHydrator($entityManager,'MHRUser\Entity\User'));
-        $oForm->bind($oUser);
+//        $builder = new AnnotationBuilder( $entityManager );
+//
+//        $oForm = $builder->createForm( $oUser );
+//
+//        $oForm->setHydrator(new DoctrineHydrator($entityManager,'MHRUser\Entity\User'));
+//        $oForm->bind($oUser);
 
         return new ViewModel(array(
             'form' => $oForm
@@ -133,5 +150,19 @@ class IndexController extends AbstractActionController
                 ->get('doctrine.entitymanager.orm_default');
         }
         return $this->em;
+    }
+
+
+    public function getRegisterForm()
+    {
+        if (!$this->registerForm) {
+            $this->setRegisterForm($this->getServiceLocator()->get('mhruser_register_form'));
+        }
+        return $this->registerForm;
+    }
+
+    public function setRegisterForm(Form $registerForm)
+    {
+        $this->registerForm = $registerForm;
     }
 }

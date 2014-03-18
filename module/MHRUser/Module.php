@@ -51,6 +51,35 @@ class Module
 //                        $resultSetPrototype->setArrayObjectPrototype(new User());
 //                        return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
 //                    },
+
+//                  'mhruser_module_options' => function ($sm) {
+//                          $config = $sm->get('Config');
+//                          return new Options\ModuleOptions(isset($config['mhruser']) ? $config['mhruser'] : array());
+//                  },
+
+                  'mhruser_register_form' => function ($sm) {
+//                        $options = $sm->get('mhruser_module_options');
+                        $form = new Form\Register(null);
+                        //$form->setCaptchaElement($sm->get('zfcuser_captcha_element'));
+                        $form->setInputFilter(new Form\RegisterFilter(
+                            array(
+                                'name'      => 'DoctrineModule\Validator\NoObjectExists',
+                                'options' => array(
+                                    'object_repository' => $sm->get('doctrine.entitymanager.orm_default')->getRepository('MHRUser\Entity\User'),
+                                    'fields'            => 'email'
+                                ),
+                            ),
+                            array(
+                                'name'      => 'DoctrineModule\Validator\NoObjectExists',
+                                'options' => array(
+                                    'object_repository' => $sm->get('doctrine.entitymanager.orm_default')->getRepository('MHRUser\Entity\User'),
+                                    'fields'            => 'email'
+                                ),
+                            )
+                        ));
+                        return $form;
+                  },
+
             ),
         );
     }

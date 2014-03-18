@@ -3,6 +3,7 @@
 namespace MHRUser\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
@@ -49,7 +50,7 @@ class User
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(name="display_name", type="string", length=50, nullable=true)
      */
     protected $displayName;
 
