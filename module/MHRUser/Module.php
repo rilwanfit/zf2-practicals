@@ -58,9 +58,7 @@ class Module
 //                  },
 
                   'mhruser_register_form' => function ($sm) {
-//                        $options = $sm->get('mhruser_module_options');
                         $form = new Form\Register(null);
-                        //$form->setCaptchaElement($sm->get('zfcuser_captcha_element'));
                         $form->setInputFilter(new Form\RegisterFilter(
                             array(
                                 'name'      => 'DoctrineModule\Validator\NoObjectExists',
@@ -79,6 +77,10 @@ class Module
                         ));
                         return $form;
                   },
+                  'mhruser_role_form' => function ($sm) {
+                        $oForm = new Form\Role(null);
+                        return $oForm;
+                    },
 
             ),
         );

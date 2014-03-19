@@ -90,6 +90,9 @@ class IndexController extends AbstractActionController
 
     public function editAction()
     {
+
+        $oForm = $this->getRegisterForm();
+
         $entityManager = $this->getEntityManager();
 
         $id = (int) $this->params()->fromRoute('id', 0);
@@ -106,11 +109,12 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('mhr-user');
         }
 
-        $builder = new AnnotationBuilder( $entityManager );
+//        $builder = new AnnotationBuilder( $entityManager );
+//
+//        $oForm = $builder->createForm( $oUser );
+//
+//        $oForm->setHydrator(new DoctrineHydrator($entityManager,'MHRUser\Entity\User'));
 
-        $oForm = $builder->createForm( $oUser );
-
-        $oForm->setHydrator(new DoctrineHydrator($entityManager,'MHRUser\Entity\User'));
         $oForm->bind($oUser);
 
         return new ViewModel(array(

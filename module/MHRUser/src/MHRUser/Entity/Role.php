@@ -38,6 +38,28 @@ class Role
     protected $parent;
 
     /**
+     * @var string
+     * @ORM\Column(name="name", type="string", length=50, unique=true)
+     */
+    protected $roleName;
+
+    /**
+     * @param string $roleName
+     */
+    public function setRoleName($roleName)
+    {
+        $this->roleName = $roleName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoleName()
+    {
+        return $this->roleName;
+    }
+
+    /**
      * Get the id.
      *
      * @return int

@@ -259,5 +259,4 @@ class User
         $this->roles[] = $role;
     }
 
-
 }

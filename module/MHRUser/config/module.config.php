@@ -37,12 +37,27 @@ return array(
                         'action'     => 'index'
                     )
                 )
+            ),
+            'mhr-role' => array(
+                'type'      => 'segment',
+                'options'   =>  array(
+                    'route'     => '/mhr-role[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults'  =>  array(
+                        'controller' => 'MHRUser\Controller\Role',
+                        'action'     => 'index'
+                    )
+                )
             )
         )
     ),
     'controllers' => array(
         'invokables' => array(
             'MHRUser\Controller\Index' => 'MHRUser\Controller\IndexController',
+            'MHRUser\Controller\Role'  => 'MHRUser\Controller\RoleController',
 
         ),
     ),
