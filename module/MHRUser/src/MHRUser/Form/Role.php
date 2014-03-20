@@ -11,6 +11,7 @@ namespace MHRUser\Form;
 use DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity;
 use Zend\Form\Form;
 use Zend\Form\Element;
+use Zend\Permissions\Acl\Role\Registry;
 
 
 class Role extends Form
@@ -24,10 +25,10 @@ class Role extends Form
 
         parent::__construct($name);
 
-        $em = Registry::get('entityManager');
+        //$em = Registry::get('entityManager');
 
-        $this->setHydrator(new DoctrineEntity($em))
-            ->setObject(new Role());
+        //$this->setHydrator(new DoctrineEntity($em))
+          //  ->setObject(new Role());
 
         $this->add(array(
             'name' => 'name',

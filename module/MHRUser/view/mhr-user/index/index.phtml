@@ -5,7 +5,7 @@
                 <h3>Users</h3>
             </div>
             <div>
-                <a href="<?php echo $this->url('mhr-user', array('action'=>'add'));?>">Add User</a>
+                <a href="<?php echo $this->url('mhr-user/default', array('controller'=>'index','action'=>'add'));?>">Add User</a>
 
                 <?php if (isset($users)) : ?>
                     <table>
@@ -34,3 +34,6 @@
         </div>
     </div>
 </div>
+<p>
+    <a href="<?php echo $this->url('mhr-user/default', array('controller' => 'index', 'action' => 'logout'));?>"><?php echo $this->translate('Logout'); ?></a>
+</p>

@@ -58,12 +58,12 @@ class RoleController extends AbstractActionController
 
             if($oForm->isValid()) {
 
-                $oRole->setFirstName($this->getRequest()->getPost('name'));
+                $oRole->setRoleName($this->getRequest()->getPost('name'));
 
                 $entityManager->persist($oRole);
                 $entityManager->flush();
 
-                return $this->redirect()->toRoute('mhr-role');
+                return $this->redirect()->toRoute('mhr-user');
             }
 
         }

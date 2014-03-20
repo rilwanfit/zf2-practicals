@@ -54,7 +54,6 @@ class User
      */
     protected $displayName;
 
-
      /**
       * @var string
       * @ORM\Column(type="string", length=128)
@@ -206,13 +205,26 @@ class User
     /**
      * Set password.
      *
-     * @param string $password
+     * @param $plaintextPassword
+     * @param $salt
+     * @internal param string $password
      *
      * @return void
      */
-    public function setPassword($password)
+    public function setPassword($plaintextPassword, $salt)
     {
-        $this->password = $password;
+        $this->password = crypt($plaintextPassword, '$5$rounds=5000$'.$salt.'$');
+    }
+
+    /**
+     * used by doctrine to compare the supplied password to the users password and should return either a boolean or the hash of $password.
+     * @param $player
+     * @param $password
+     * @return bool
+     */
+    public static function hashPassword($player, $password)
+    {
+        return ($player->getPassword() === crypt($password, $player->getPassword()));
     }
 
     /**

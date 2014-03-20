@@ -8,10 +8,10 @@ $this->headTitle($title);
 
 $form = $this->form;
 $form->setAttribute('action', $this->url(
-    'mhr-role',
+    'mhr-user',
     array(
         'action'     => 'add',
-        'controller' => 'index'
+        'controller' => 'role'
     )
 ));
 $form->prepare();

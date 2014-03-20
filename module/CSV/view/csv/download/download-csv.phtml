@@ -1,9 +1,0 @@
-<?php
-if(count($results) > 0 ) {
-    $fh = @fopen('php://output', 'w');
-    foreach ($results as $result) {
-        //Convert each record in $results to a CSV row then use PHP streams to store the CSV data in an output buffer.
-        fputcsv($fh, $result);
-    }
-    fclose($fh);
-}

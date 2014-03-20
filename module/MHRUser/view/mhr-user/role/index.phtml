@@ -5,7 +5,7 @@
                 <h3>Roles</h3>
             </div>
             <div>
-                <a href="<?php echo $this->url('mhr-role', array('action'=>'add'));?>">Add Role</a>
+                <a href="<?php echo $this->url('mhr-user', array('controller'=>'role', 'action'=>'add'));?>">Add Role</a>
 
                 <?php if (isset($roles)) : ?>
                     <table>
@@ -22,8 +22,8 @@
                                 <td><?php echo $role->getId(); ?></td>
                                 <td><?php echo $role->getRoleName(); ?></td>
                                 <td>
-                                    <a href="<?php echo $this->url('mhr-role', array('action'=>'edit', 'id' => $role->getId()));?>">Edit</a> |
-                                    <a href="<?php echo $this->url('mhr-role', array('action'=>'delete', 'id' => $role->getId()));?>">Delete</a>
+                                    <a href="<?php echo $this->url('mhr-user', array('action'=>'edit', 'id' => $role->getId()));?>">Edit</a> |
+                                    <a href="<?php echo $this->url('mhr-user', array('action'=>'delete', 'id' => $role->getId()));?>">Delete</a>
                                 </td>
                             </tr>
                             </tbody>

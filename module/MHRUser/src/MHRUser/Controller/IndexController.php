@@ -33,12 +33,20 @@ class IndexController extends AbstractActionController
     protected $registerForm;
 
     /**
+     * @var LoginForm
+     */
+    protected $loginForm;
+
+    /**
      * Index action displays a list of all the users
      *
      * @return array|ViewModel
      */
     public function indexAction()
     {
+        if(!$this->_getUserIdentity()) {
+            return $this->redirect()->toRoute('mhr-user/default', array('controller'=>'index', 'action' => 'login'));
+        }
         return new ViewModel(
             array(
                 'users' => $this->getEntityManager()->getRepository('MHRUser\Entity\User')->findAll()
@@ -48,6 +56,9 @@ class IndexController extends AbstractActionController
 
     public function addAction()
     {
+        if(!$this->_getUserIdentity()) {
+            return $this->redirect()->toRoute('mhr-user/default', array('controller'=>'index', 'action' => 'login'));
+        }
 
         $oForm = $this->getRegisterForm();
 
@@ -64,7 +75,7 @@ class IndexController extends AbstractActionController
                 $oUser->setUsername($this->getRequest()->getPost('username'));
                 $oUser->setEmail($this->getRequest()->getPost('email'));
                 $oUser->setDisplayName($this->getRequest()->getPost('display_name'));
-                $oUser->setPassword($this->getRequest()->getPost('password'));
+                $oUser->setPassword($this->getRequest()->getPost('password'),'123456');
 
                 $entityManager->persist($oUser);
                 $entityManager->flush();
@@ -74,13 +85,6 @@ class IndexController extends AbstractActionController
             }
 
         }
-
-//        $builder = new AnnotationBuilder( $entityManager );
-//
-//        $oForm = $builder->createForm( $oUser );
-//
-//        $oForm->setHydrator(new DoctrineHydrator($entityManager,'MHRUser\Entity\User'));
-//        $oForm->bind($oUser);
 
         return new ViewModel(array(
             'form' => $oForm
@@ -109,13 +113,7 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('mhr-user');
         }
 
-//        $builder = new AnnotationBuilder( $entityManager );
-//
-//        $oForm = $builder->createForm( $oUser );
-//
-//        $oForm->setHydrator(new DoctrineHydrator($entityManager,'MHRUser\Entity\User'));
-
-        $oForm->bind($oUser);
+//        $oForm->bind($oUser);
 
         return new ViewModel(array(
             'form' => $oForm,
@@ -139,6 +137,82 @@ class IndexController extends AbstractActionController
         }
 
         return new ViewModel(array('user' => $user));
+    }
+
+
+    public function loginAction()
+    {
+        $oForm = $this->getLoginForm();
+        $oForm->get('submit')->setValue('Login');
+        $messages = null;
+
+        $entityManager = $this->getEntityManager();
+
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+
+            $oForm->setData($request->getPost());
+
+            if ($oForm->isValid()) {
+
+                $data = $oForm->getData();
+
+
+                // Authenticate user
+                $auth = $this->getServiceLocator()->get('doctrine.authenticationservice.orm_default');
+                $auth->getAdapter()->setIdentityValue($data['username']);
+                $auth->getAdapter()->setCredentialValue($data['password']);
+                $authResult = $auth->authenticate();
+
+                if ($authResult->isValid()) {
+                    $identity = $authResult->getIdentity();
+                    $auth->getStorage()->write($identity);
+                    $time = 1209600; // 14 days 1209600/3600 = 336 hours => 336/24 = 14 days
+                    //- if ($data['rememberme']) $authService->getStorage()->session->getManager()->rememberMe($time); // no way to get the session
+                    if ($data['rememberme']) {
+                        $sessionManager = new \Zend\Session\SessionManager();
+                        $sessionManager->rememberMe($time);
+                    }
+                    return $this->redirect()->toRoute('mhr-user');
+                }
+                foreach ($authResult->getMessages() as $message) {
+                    $messages .= "$message\n";
+                }
+
+                /*
+                $identity = $authenticationResult->getIdentity();
+                $authService->getStorage()->write($identity);
+
+                $authenticationService = $this->serviceLocator()->get('Zend\Authentication\AuthenticationService');
+                $loggedUser = $authenticationService->getIdentity();
+                */
+            }
+        }
+        return new ViewModel(array(
+            'error' => 'Your authentication credentials are not valid',
+            'form'	=> $oForm,
+            'messages' => $messages,
+        ));
+    }
+
+    public function logoutAction()
+    {
+
+        if($this->_getUserIdentity()) {
+            $auth = $this->getServiceLocator()->get('doctrine.authenticationservice.orm_default');
+            $auth->clearIdentity();
+            $sessionManager = new \Zend\Session\SessionManager();
+            $sessionManager->forgetMe();
+        }
+
+        return $this->redirect()->toRoute('mhr-user/default', array('controller' => 'index', 'action' => 'login'));
+
+    }
+
+    protected function _getUserIdentity() {
+        $auth = $this->getServiceLocator()->get('doctrine.authenticationservice.orm_default');
+        return $auth->getIdentity();
     }
 
 
@@ -168,5 +242,18 @@ class IndexController extends AbstractActionController
     public function setRegisterForm(Form $registerForm)
     {
         $this->registerForm = $registerForm;
+    }
+
+    public function getLoginForm()
+    {
+        if (!$this->loginForm) {
+            $this->setLoginForm($this->getServiceLocator()->get('mhruser_login_form'));
+        }
+        return $this->loginForm;
+    }
+
+    public function setLoginForm(Form $loginForm)
+    {
+        $this->loginForm = $loginForm;
     }
 }

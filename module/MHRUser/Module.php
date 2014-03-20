@@ -8,12 +8,11 @@
 
 namespace MHRUser;
 
-
-
-use MHRUser\Model\User;
-use MHRUser\Model\UserTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
+
+use Zend\Mail\Transport\Smtp;
+use Zend\Mail\Transport\SmtpOptions;
 
 class Module
 {
@@ -80,6 +79,18 @@ class Module
                   'mhruser_role_form' => function ($sm) {
                         $oForm = new Form\Role(null);
                         return $oForm;
+                    },
+                    'mhruser_login_form' => function ($sm) {
+                        $oForm = new Form\Login(null);
+                        $oForm->setInputFilter(new Form\LoginFilter($sm));
+                        return $oForm;
+                    },
+                // Add this for SMTP transport
+                'mail.transport' => function ($sm) {
+                        $config = $sm->get('Config');
+                        $transport = new Smtp();
+                        $transport->setOptions(new SmtpOptions($config['mail']['transport']['options']));
+                        return $transport;
                     },
 
             ),

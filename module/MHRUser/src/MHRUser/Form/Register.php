@@ -8,7 +8,8 @@
 
 namespace MHRUser\Form;
 
-//use Zend\Form\Element\Captcha as Captcha;
+use Zend\Form\Element\Captcha as Captcha;
+use Zend\Captcha\Figlet;
 use Zend\Form\Form;
 use Zend\Form\Element;
 
@@ -81,11 +82,11 @@ class Register extends Form
         ));
 
 //        $this->add(array(
-//            'name' => 'captcha',
 //            'type' => 'Zend\Form\Element\Captcha',
+//            'name' => 'captcha',
 //            'options' => array(
-//                'label' => 'Please type the following text',
-//                'captcha' => $this->getRegistrationOptions()->getFormCaptchaOptions(),
+//                'label' => 'Please verify you are human',
+//                'captcha' => new Figlet(),
 //            ),
 //        ));
 
