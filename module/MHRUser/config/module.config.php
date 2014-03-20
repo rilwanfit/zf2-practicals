@@ -92,7 +92,7 @@ return array(
                 //the password property of your class
                 'credentialProperty' => 'password',
                 //a callable function to hash the password with
-                'credentialCallable' => 'MHRUser\Entity\User::hashPassword'
+                //'credentialCallable' => 'MHRUser\Entity\User::hashPassword'
             ),
         ),
     ),

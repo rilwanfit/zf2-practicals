@@ -61,9 +61,68 @@ class User
     protected $password;
 
     /**
-     * @var int
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean", nullable=false)
      */
-    protected $state;
+    private $active;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="registration_date", type="datetime", nullable=true)
+     */
+    private $registrationDate; // = '2013-07-30 00:00:00'; // new \DateTime() - coses synatx error
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="registration_token", type="string", length=100, nullable=true)
+     */
+    private $registrationToken;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="lang_id", type="integer", nullable=true)
+     */
+    private $langId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="question", type="string", length=100, nullable=true)
+     */
+    private $question;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="email_confirmed", type="boolean", nullable=false)
+     */
+    private $emailConfirmed;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="answer", type="string", length=100, nullable=true)
+     */
+    private $answer;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="picture", type="string", length=255, nullable=true)
+     */
+    private $picture;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password_salt", type="string", length=100, nullable=true)
+     */
+    private $passwordSalt;
+
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -81,6 +140,119 @@ class User
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->registrationDate = new \DateTime();
+    }
+
+    /**
+     * @param string $answer
+     */
+    public function setAnswer($answer)
+    {
+        $this->answer = $answer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAnswer()
+    {
+        return $this->answer;
+    }
+
+    /**
+     * @param int $langId
+     */
+    public function setLangId($langId)
+    {
+        $this->langId = $langId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLangId()
+    {
+        return $this->langId;
+    }
+
+    /**
+     * @param string $picture
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param string $passwordSalt
+     */
+    public function setPasswordSalt($passwordSalt)
+    {
+        $this->passwordSalt = $passwordSalt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordSalt()
+    {
+        return $this->passwordSalt;
+    }
+
+    /**
+     * @param string $question
+     */
+    public function setQuestion($question)
+    {
+        $this->question = $question;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQuestion()
+    {
+        return $this->question;
+    }
+
+    /**
+     * @param \DateTime $registrationDate
+     */
+    public function setRegistrationDate($registrationDate)
+    {
+        $this->registrationDate = $registrationDate;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getRegistrationDate()
+    {
+        return $this->registrationDate;
+    }
+
+    /**
+     * @param boolean $emailConfirmed
+     */
+    public function setEmailConfirmed($emailConfirmed)
+    {
+        $this->emailConfirmed = $emailConfirmed;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getEmailConfirmed()
+    {
+        return $this->emailConfirmed;
     }
 
     /**
@@ -206,14 +378,15 @@ class User
      * Set password.
      *
      * @param $plaintextPassword
-     * @param $salt
+     * @internal param $salt
      * @internal param string $password
      *
      * @return void
      */
-    public function setPassword($plaintextPassword, $salt)
+    public function setPassword($plaintextPassword)
     {
-        $this->password = crypt($plaintextPassword, '$5$rounds=5000$'.$salt.'$');
+//        $this->password = crypt($plaintextPassword, '$5$rounds=5000$'.$salt.'$');
+          $this->password = $plaintextPassword;
     }
 
     /**
@@ -228,25 +401,25 @@ class User
     }
 
     /**
-     * Get state.
+     * Get active.
      *
      * @return int
      */
-    public function getState()
+    public function getActive()
     {
-        return $this->state;
+        return $this->active;
     }
 
     /**
-     * Set state.
+     * Set active.
      *
-     * @param int $state
+     * @param int $active
      *
      * @return void
      */
-    public function setState($state)
+    public function setActive($active)
     {
-        $this->state = $state;
+        $this->active = $active;
     }
 
     /**
@@ -269,6 +442,28 @@ class User
     public function addRole($role)
     {
         $this->roles[] = $role;
+    }
+
+    /**
+     * Set RegistrationToken
+     *
+     * @param $registrationToken
+     * @internal param string $RegistrationToken
+     * @return viod
+     */
+    public function setRegistrationToken($registrationToken)
+    {
+        $this->registrationToken = $registrationToken;
+    }
+
+    /**
+     * Get registrationToken
+     *
+     * @return string
+     */
+    public function getRegistrationToken()
+    {
+        return $this->registrationToken;
     }
 
 }

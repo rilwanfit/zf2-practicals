@@ -25,13 +25,18 @@ CREATE TABLE `user` (
   `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `display_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `registration_date` datetime DEFAULT NULL,
+  `registration_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lang_id` int(11) DEFAULT NULL,
+  `question` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `answer` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `picture` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password_salt` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `usr_email_confirmed` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-/*Data for the table `user` */
-
-insert  into `user`(`id`,`first_name`,`last_name`,`email`,`username`,`displayName`,`password`) values (1,'rilwan1','rilwan','',NULL,NULL,''),(2,'rilwan2',NULL,'',NULL,NULL,''),(5,'rilwan2','dsadsa','',NULL,NULL,''),(6,'dsad1','dsadsa2','',NULL,NULL,'');
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Table structure for table `users_roles` */
 

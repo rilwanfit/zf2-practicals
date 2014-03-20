@@ -11,8 +11,12 @@ namespace MHRUser\Controller;
 
 use MHRUser\Entity\User;
 use Zend\Form\Form;
+use Zend\Mail\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
+use DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity;
 
 class RegisterController extends AbstractActionController
 {
@@ -36,19 +40,21 @@ class RegisterController extends AbstractActionController
 
         $oUser = new User();
 
+        $oForm->setHydrator(new DoctrineHydrator($entityManager,'MHRUser\Entity\User'));
+
         if($this->request->isPost()) {
             $oForm->setData($this->request->getPost());
             if($oForm->isValid()) {
                 //$oUser->setFirstName($this->getRequest()->getPost('firstName'));
                 //$oUser->setLastName($this->getRequest()->getPost('lastName'));
 
-                $oUser->setUsername($this->getRequest()->getPost('username'));
-                $oUser->setEmail($this->getRequest()->getPost('email'));
-                $oUser->setDisplayName($this->getRequest()->getPost('display_name'));
-                $oUser->setPassword($this->getRequest()->getPost('password'),'123456');
+
+
+                // prepare data
+                $this->prepareData($oUser);
 
                 $this->sendConfirmationEmail($oUser);
-                $this->flashMessenger()->addMessage($oUser->getUsrEmail());
+                $this->flashMessenger()->addMessage($oUser->getEmail());
 
                 $entityManager->persist($oUser);
                 $entityManager->flush();
@@ -73,12 +79,35 @@ class RegisterController extends AbstractActionController
                 $sEmail .= $value;
             }
         }
-        return new ViewModel(array('usr_email' => $sEmail));
+        return new ViewModel(array('email' => $sEmail));
+    }
+
+    public function confirmEmailAction()
+    {
+        $token = $this->params()->fromRoute('id');
+        $viewModel = new ViewModel(array('token' => $token));
+        try {
+            $entityManager = $this->getEntityManager();
+            $user = $entityManager->getRepository('AuthDoctrine\Entity\User')->findOneBy(array('usrRegistrationToken' => $token)); //
+            $user->setUsrActive(1);
+            $user->setUsrEmailConfirmed(1);
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }
+        catch(\Exception $e) {
+            $viewModel->setTemplate('auth-doctrine/registration/confirm-email-error.phtml');
+        }
+        return $viewModel;
     }
 
 
     public function prepareData($user)
     {
+
+        $user->setUsername($this->getRequest()->getPost('username'));
+        $user->setEmail($this->getRequest()->getPost('email'));
+        $user->setDisplayName($this->getRequest()->getPost('display_name'));
+
         $user->setActive(0);
         $user->setPasswordSalt($this->generateDynamicSalt());
         $user->setPassword($this->encriptPassword(
@@ -86,11 +115,12 @@ class RegisterController extends AbstractActionController
             $user->getPassword(),
             $user->getPasswordSalt()
         ));
-        $user->setRoleId(2);
-        $user->setLngId(1);
+//        $user->setRoleId(2);
+        $user->setLangId(1);
         $user->setRegistrationDate(new \DateTime());
         $user->setRegistrationToken(md5(uniqid(mt_rand(), true))); // $this->generateDynamicSalt();
         $user->setEmailConfirmed(0);
+
         return $user;
     }
 
@@ -190,7 +220,6 @@ class RegisterController extends AbstractActionController
 
     public function sendConfirmationEmail($user)
     {
-
         // $view = $this->getServiceLocator()->get('View');
         $transport = $this->getServiceLocator()->get('mail.transport');
         $message = new Message();
