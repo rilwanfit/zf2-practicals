@@ -34,7 +34,8 @@ class RegisterController extends AbstractActionController
 
     public function indexAction()
     {
-        $oForm = $this->getRegisterForm();
+        //A lot of work to manualy change the form add fields etc. Better use a form class
+//-        $oForm = $this->getRegisterForm();
 
         $entityManager = $this->getEntityManager();
 

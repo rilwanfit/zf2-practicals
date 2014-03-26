@@ -66,7 +66,6 @@ class User
      * @ORM\Column(name="active", type="boolean", nullable=false)
      */
     private $active;
-
     /**
      * @var \DateTime
      *

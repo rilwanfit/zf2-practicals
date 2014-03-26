@@ -44,9 +44,9 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-        if(!$this->_getUserIdentity()) {
-            return $this->redirect()->toRoute('mhr-user/default', array('controller'=>'index', 'action' => 'login'));
-        }
+//        if(!$this->_getUserIdentity()) {
+//            return $this->redirect()->toRoute('mhr-user/default', array('controller'=>'index', 'action' => 'login'));
+//        }
         return new ViewModel(
             array(
                 'users' => $this->getEntityManager()->getRepository('MHRUser\Entity\User')->findAll()
