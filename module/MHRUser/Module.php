@@ -80,7 +80,7 @@ class Module
                         $oForm = new Form\Role(null);
                         return $oForm;
                     },
-                    'mhruser_login_form' => function ($sm) {
+                  'mhruser_login_form' => function ($sm) {
                         $oForm = new Form\Login(null);
                         $oForm->setInputFilter(new Form\LoginFilter($sm));
                         return $oForm;

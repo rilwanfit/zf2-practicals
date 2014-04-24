@@ -158,7 +158,6 @@ class IndexController extends AbstractActionController
 
                 $data = $oForm->getData();
 
-
                 // Authenticate user
                 $auth = $this->getServiceLocator()->get('doctrine.authenticationservice.orm_default');
                 $auth->getAdapter()->setIdentityValue($data['username']);

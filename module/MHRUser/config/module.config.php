@@ -88,7 +88,7 @@ return array(
                 //fully qualified name of your user class
                 'identityClass' => 'MHRUser\Entity\User',
                 //the identity property of your class
-               // 'identityProperty' => 'username',
+                'identityProperty' => 'username',
                 //the password property of your class
                 'credentialProperty' => 'password',
                 //a callable function to hash the password with
