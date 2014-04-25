@@ -227,7 +227,8 @@ class Translator
         if (isset($options['event_manager_enabled']) && $options['event_manager_enabled']) {
             $translator->enableEventManager();
         }
-
+//        echo '<pre>';
+//var_dump($translator);die();
         return $translator;
     }
 
@@ -351,6 +352,7 @@ class Translator
     public function translate($message, $textDomain = 'default', $locale = null)
     {
         $locale      = ($locale ?: $this->getLocale());
+
         $translation = $this->getTranslatedMessage($message, $locale, $textDomain);
 
         if ($translation !== null && $translation !== '') {
@@ -430,10 +432,10 @@ class Translator
         $locale,
         $textDomain = 'default'
     ) {
+
         if ($message === '') {
             return '';
         }
-
         if (!isset($this->messages[$textDomain][$locale])) {
             $this->loadMessages($textDomain, $locale);
         }

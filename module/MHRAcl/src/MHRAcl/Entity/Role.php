@@ -1,6 +1,6 @@
 <?php
 
-namespace MHRUser\Entity;
+namespace MHRAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +34,54 @@ class Role
      * @ORM\Column(name="status", type="string", nullable=false)
      */
     private $status = 'Active';
+
+    /**
+     * @param int $rid
+     */
+    public function setRid($rid)
+    {
+        $this->rid = $rid;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRid()
+    {
+        return $this->rid;
+    }
+
+    /**
+     * @param string $roleName
+     */
+    public function setRoleName($roleName)
+    {
+        $this->roleName = $roleName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoleName()
+    {
+        return $this->roleName;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 
 
 }

@@ -44,9 +44,10 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-//        if(!$this->_getUserIdentity()) {
-//            return $this->redirect()->toRoute('mhr-user/default', array('controller'=>'index', 'action' => 'login'));
-//        }
+        // only allowed to login users.
+        if(!$this->_getUserIdentity()) {
+            return $this->redirect()->toRoute('mhr-user/default', array('controller'=>'index', 'action' => 'login'));
+        }
         return new ViewModel(
             array(
                 'users' => $this->getEntityManager()->getRepository('MHRUser\Entity\User')->findAll()
@@ -56,6 +57,7 @@ class IndexController extends AbstractActionController
 
     public function addAction()
     {
+        // only allowed to login users.
         if(!$this->_getUserIdentity()) {
             return $this->redirect()->toRoute('mhr-user/default', array('controller'=>'index', 'action' => 'login'));
         }

@@ -11,6 +11,7 @@ namespace MHRAcl\Utility;
 use Zend\Permissions\Acl\Acl as ZendAcl;
 use Zend\Permissions\Acl\Role\GenericRole as Role;
 use Zend\Permissions\Acl\Resource\GenericResource as Resource;
+
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -22,6 +23,13 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
     protected $_roleTableObject;
 
     protected $serviceLocator;
+
+    /**
+     * Entity manager instance
+     * @var Doctrine\ORM\EntityManager
+     */
+    protected $em;
+
 
     protected $roles;
 
@@ -50,6 +58,7 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
         $this->roles = $this->_getAllRoles();
         $this->resources = $this->_getAllResources();
         $this->rolePermission = $this->_getRolePermissions();
+var_dump($this->rolePermission);die();
         // we are not putting these resource & permission in table bcz it is
         // common to all user
         $this->commonPermission = array(
@@ -77,10 +86,9 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
     protected function _addRoles()
     {
         $this->addRole(new Role(self::DEFAULT_ROLE));
-
         if (! empty($this->roles)) {
             foreach ($this->roles as $role) {
-                $roleName = $role['role_name'];
+                $roleName = $role->getRoleName();
                 if (! $this->hasRole($roleName)) {
                     $this->addRole(new Role($roleName), self::DEFAULT_ROLE);
                 }
@@ -93,8 +101,8 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
     {
         if (! empty($this->resources)) {
             foreach ($this->resources as $resource) {
-                if (! $this->hasResource($resource['resource_name'])) {
-                    $this->addResource(new Resource($resource['resource_name']));
+                if (! $this->hasResource($resource->getResourceName())) {
+                    $this->addResource(new Resource($resource->getResourceName()));
                 }
             }
         }
@@ -124,6 +132,7 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
 
         if (! empty($this->rolePermission)) {
             foreach ($this->rolePermission as $rolePermissions) {
+                var_dump($rolePermissions);die();
                 $this->allow($rolePermissions['role_name'], $rolePermissions['resource_name'], $rolePermissions['permission_name']);
             }
         }
@@ -133,24 +142,51 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
 
     protected function _getAllRoles()
     {
-        $roleTable = $this->getServiceLocator()->get("RoleTable");
-        return $roleTable->getUserRoles();
+
+        // ZendDb
+//        $roleTable = $this->getServiceLocator()->get("RoleTable");
+//        return $roleTable->getUserRoles();
+
+        // Doctrine 2
+        return $this->getEntityManager()->getRepository('MHRAcl\Entity\Role')->findAll();
     }
 
     protected function _getAllResources()
     {
-        $resourceTable = $this->getServiceLocator()->get("ResourceTable");
-        return $resourceTable->getAllResources();
+        // ZendDB
+//        $resourceTable = $this->getServiceLocator()->get("ResourceTable");
+//        return $resourceTable->getAllResources();
+
+        // Doctrine 2
+        return $this->getEntityManager()->getRepository('MHRAcl\Entity\Resource')->findAll();
     }
 
     protected function _getRolePermissions()
     {
-        $rolePermissionTable = $this->getServiceLocator()->get("RolePermissionTable");
-        return $rolePermissionTable->getRolePermissions();
+        // ZendDB
+//        $rolePermissionTable = $this->getServiceLocator()->get("RolePermissionTable");
+//        return $rolePermissionTable->getRolePermissions();
+
+        // Doctrine 2
+        return $this->getEntityManager()->getRepository('MHRAcl\Entity\RolePermission')->getRolePermissions();
     }
 
     private function debugAcl($role, $resource, $permission)
     {
         echo 'Role:-' . $role . '==>' . $resource . '\\' . $permission . '<br/>';
+    }
+
+    /**
+     * Returns an instance of the Doctrine entity manager loaded from the service locator
+     *
+     *  @return Doctrine\ORM\EntityManager
+     */
+    public function getEntityManager()
+    {
+        if (null === $this->em) {
+            $this->em = $this->getServiceLocator()
+                ->get('doctrine.entitymanager.orm_default');
+        }
+        return $this->em;
     }
 }

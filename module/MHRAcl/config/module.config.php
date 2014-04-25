@@ -24,4 +24,21 @@ return array(
             'mhr-acl' => __DIR__ . '/../view',
         ),
     ),
+    // Doctrine Config
+    'doctrine'  => array(
+        'driver' => array(
+            'mhracl_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths'  => array(
+                    __DIR__ . '/../src/MHRAcl/Entity'
+                )
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'MHRAcl\Entity' => 'mhracl_driver'
+                )
+            ),
+        ),
+    ),
 );

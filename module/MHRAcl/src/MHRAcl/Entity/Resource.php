@@ -1,6 +1,6 @@
 <?php
 
-namespace MHRUser\Entity;
+namespace MHRAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +27,38 @@ class Resource
      * @ORM\Column(name="resource_name", type="string", length=50, nullable=false)
      */
     private $resourceName;
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $resourceName
+     */
+    public function setResourceName($resourceName)
+    {
+        $this->resourceName = $resourceName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourceName()
+    {
+        return $this->resourceName;
+    }
 
 
 }

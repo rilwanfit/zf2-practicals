@@ -35,14 +35,14 @@ CREATE TABLE `role_permission` (
 
 /* Add Roles */
 
-INSERT INTO `role` (`role_name`, `status`) VALUES ('Role1', 'Active');
-INSERT INTO `role` (`role_name`, `status`) VALUES ('Role2', 'Active');
-INSERT INTO `role` (`role_name`, `status`) VALUES ('Role3', 'Active');
+INSERT INTO `role` (`role_name`, `status`) VALUES ('Guest', 'Active');
+INSERT INTO `role` (`role_name`, `status`) VALUES ('Adminstrator', 'Active');
 
 /* Add Rresorces */
 
 INSERT INTO `resource` (`resource_name`) VALUES ('Application\\Controller\\Index');
-INSERT INTO `resource` (`resource_name`) VALUES ('ZF2AuthAcl\\Controller\\Index');
+INSERT INTO `resource` (`resource_name`) VALUES ('MHRUser\\Controller\\Index');
+
 
 /* Add Users */
 INSERT INTO `user` (`email`, `password`, `active`) VALUES ('example.1@example.com', 'd7d833534a39afbac08ec536bed7ae9eeac45638', '1');

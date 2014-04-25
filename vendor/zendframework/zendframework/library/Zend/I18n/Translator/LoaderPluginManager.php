@@ -44,6 +44,7 @@ class LoaderPluginManager extends AbstractPluginManager
      */
     public function validatePlugin($plugin)
     {
+        var_dump($plugin);die();
         if ($plugin instanceof Loader\FileLoaderInterface || $plugin instanceof Loader\RemoteLoaderInterface) {
             // we're okay
             return;
