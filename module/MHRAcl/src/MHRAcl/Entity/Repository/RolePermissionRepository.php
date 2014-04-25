@@ -39,7 +39,6 @@ class RolePermissionRepository extends EntityRepository
 //            ->columns(array(
 //                'role_name'
 //            ))
-
 //            ->join(array(
 //                't2' => $this->table
 //            ), 't1.rid = t2.role_id', array(), 'left')
@@ -48,6 +47,8 @@ class RolePermissionRepository extends EntityRepository
 //            ), 't3.id = t2.permission_id', array(
 //                'permission_name'
 //            ), 'left')
+
+
 //            ->join(array(
 //                't4' => 'resource'
 //            ), 't4.id = t3.resource_id', array(
@@ -63,9 +64,11 @@ class RolePermissionRepository extends EntityRepository
 
         $qb  = $this->getEntityManager()->createQueryBuilder();
 
-        $qb->select(array('r.roleName', 'rp'))
+        $qb->select(array('r.roleName', 'p.permissionName', 'rs.resourceName'))
             ->from('MHRAcl\Entity\Role', 'r')
-            ->leftJoin('r.roleId', 'rp');
+            ->leftJoin('r.permissions', 'p')
+            ->leftJoin('p.resources', 'rs');
+
             //->where('r.permission_name is not null');
            // ->andWhere('u.date = :date')
            // ->setParameter('date', $date)

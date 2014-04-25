@@ -4,6 +4,8 @@ namespace MHRAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Role
  *
@@ -34,6 +36,24 @@ class Role
      * @ORM\Column(name="status", type="string", nullable=false)
      */
     private $status = 'Active';
+
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\ManyToMany(targetEntity="MHRAcl\Entity\Permission")
+     * @ORM\JoinTable(
+     *     name="role_permission",
+     *     joinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="rid")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="permission_id", referencedColumnName="id")}
+     * )
+     */
+    private $permissions;
+
+
+    public function __construct()
+    {
+        $this->permissions = new ArrayCollection();
+    }
 
     /**
      * @param int $rid

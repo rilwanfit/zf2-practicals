@@ -1,6 +1,6 @@
 <?php
 
-namespace MHRUser\Entity;
+namespace MHRAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +34,13 @@ class Permission
      * @ORM\Column(name="resource_id", type="integer", nullable=false)
      */
     private $resourceId;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="MHRAcl\Entity\Resource", inversedBy="permission")
+     * @ORM\JoinColumn(name="resource_id", referencedColumnName="id")
+     **/
+    private $resources;
 
 
 }

@@ -4,6 +4,8 @@ namespace MHRAcl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Resource
  *
@@ -27,6 +29,15 @@ class Resource
      * @ORM\Column(name="resource_name", type="string", length=50, nullable=false)
      */
     private $resourceName;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MHRAcl\Entity\Permission", mappedBy="product")
+     **/
+    private $permission;
+
+    public function __construct() {
+        $this->permission = new ArrayCollection();
+    }
 
     /**
      * @param int $id
@@ -59,6 +70,7 @@ class Resource
     {
         return $this->resourceName;
     }
+
 
 
 }
