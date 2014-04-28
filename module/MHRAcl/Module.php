@@ -17,8 +17,15 @@ use MHRAcl\Utility\Acl;
 class Module
 {
 
+    private $app;
+
+    private $serviceManager;
+
     public function onBootstrap(MvcEvent $e)
     {
+
+        $this->app = $e->getApplication();
+        $this->serviceManager = $this->app->getServiceManager();
 
         $em = $e->getApplication()->getEventManager();
         $oModuleRouteListerner = new ModuleRouteListener();
@@ -40,7 +47,6 @@ class Module
         );
 
         $controller = $e->getRouteMatch()->getParam('controller');
-
         $action = $e->getRouteMatch()->getParam('action');
 
         $requestedResourse = $controller . "-" . $action;
@@ -57,8 +63,23 @@ class Module
                 $serviceManager = $e->getApplication()->getServiceManager();
                 $userRole = $session->offsetGet('roleName');
 
+
+                // check user logged into system
+                $auth = $this->serviceManager->get('doctrine.authenticationservice.orm_default');
+                if($auth->getIdentity()) {
+                    $session = new Container('User');
+//                    $session->offsetSet('email', $data['email']);
+//                    $session->offsetSet('userId', $userDetails[0]['user_id']);
+//                    $session->offsetSet('roleId', $userDetails[0]['role_id']);
+//                    $session->offsetSet('roleName', $userDetails[0]['role_name']);
+                } else {
+                    $userRole = Acl::DEFAULT_ROLE;
+                }
+
                 $acl = $serviceManager->get('Acl');
                 $acl->initAcl();
+
+                var_dump("Role :: ".$userRole . " Controller :: " . $controller . " Action :: " . $action);
 
                 $status = $acl->isAccessAllowed($userRole, $controller, $action);
                 if (! $status) {

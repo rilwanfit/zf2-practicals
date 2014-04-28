@@ -18,7 +18,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class Acl extends ZendAcl implements ServiceLocatorAwareInterface
 {
 
-    const DEFAULT_ROLE = 'guest';
+    const DEFAULT_ROLE = 'Guest';
 
     protected $_roleTableObject;
 
@@ -58,7 +58,7 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
         $this->roles = $this->_getAllRoles();
         $this->resources = $this->_getAllResources();
         $this->rolePermission = $this->_getRolePermissions();
-var_dump($this->rolePermission);die();
+
         // we are not putting these resource & permission in table bcz it is
         // common to all user
         $this->commonPermission = array(
@@ -101,12 +101,12 @@ var_dump($this->rolePermission);die();
     {
         if (! empty($this->resources)) {
             foreach ($this->resources as $resource) {
+
                 if (! $this->hasResource($resource->getResourceName())) {
                     $this->addResource(new Resource($resource->getResourceName()));
                 }
             }
         }
-
         // add common resources
         if (! empty($this->commonPermission)) {
             foreach ($this->commonPermission as $resource => $permissions) {
@@ -129,14 +129,11 @@ var_dump($this->rolePermission);die();
                 }
             }
         }
-
         if (! empty($this->rolePermission)) {
             foreach ($this->rolePermission as $rolePermissions) {
-                var_dump($rolePermissions);die();
-                $this->allow($rolePermissions['role_name'], $rolePermissions['resource_name'], $rolePermissions['permission_name']);
+                $this->allow($rolePermissions['roleName'], $rolePermissions['resourceName'], $rolePermissions['permissionName']);
             }
         }
-
         return $this;
     }
 

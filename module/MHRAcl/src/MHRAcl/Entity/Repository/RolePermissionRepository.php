@@ -31,6 +31,7 @@ class RolePermissionRepository extends EntityRepository
     }
     public function getRolePermissions()
     {
+        // ZendDb
 //        $sql = new Sql($this->getAdapter());
 //        $select = $sql->select()
 //            ->from(array(
@@ -47,8 +48,6 @@ class RolePermissionRepository extends EntityRepository
 //            ), 't3.id = t2.permission_id', array(
 //                'permission_name'
 //            ), 'left')
-
-
 //            ->join(array(
 //                't4' => 'resource'
 //            ), 't4.id = t3.resource_id', array(
@@ -67,14 +66,11 @@ class RolePermissionRepository extends EntityRepository
         $qb->select(array('r.roleName', 'p.permissionName', 'rs.resourceName'))
             ->from('MHRAcl\Entity\Role', 'r')
             ->leftJoin('r.permissions', 'p')
-            ->leftJoin('p.resources', 'rs');
+            ->leftJoin('p.resources', 'rs')
+            ->where('p.permissionName is not null and rs.resourceName is not null')
+            ->orderBy('r.rid');
 
-            //->where('r.permission_name is not null');
-           // ->andWhere('u.date = :date')
-           // ->setParameter('date', $date)
-           // ->orderBy('u.name');
-
+        //echo '<pre>';print_r($qb->getQuery());
         return $qb->getQuery()->getArrayResult();
-
     }
 } 
