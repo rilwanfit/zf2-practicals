@@ -101,7 +101,6 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
     {
         if (! empty($this->resources)) {
             foreach ($this->resources as $resource) {
-
                 if (! $this->hasResource($resource->getResourceName())) {
                     $this->addResource(new Resource($resource->getResourceName()));
                 }

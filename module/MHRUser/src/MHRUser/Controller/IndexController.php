@@ -197,6 +197,32 @@ class IndexController extends AbstractActionController
         ));
     }
 
+
+    /**
+     * @Route("/login-token/{token}/{userHash}", name="participant_autologin_token")
+     * @ParamConverter("autologinToken", class="MyBundle:AutologinToken")
+     * @Template()
+     */
+    public function autoLoginAction(Request $request, AutologinToken $autologinToken, $userHash){
+        $csrf_token = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
+        $now = new \DateTime();
+        if( $autologinToken->getExpiresAt() != NULL && $autologinToken->getExpiresAt() < $now ){
+            return array("csrf_token" => $csrf_token, "last_username" => "", "nextUrl" => $autologinToken->getUrl());
+        }
+        if( $autologinToken->getUser()->getAutologinToken() != $userHash ){
+            return array("csrf_token" => $csrf_token, "last_username" => "", "error" => "Sorry! There is a problem with your link. Please contact support.");
+        }
+        $user = $autologinToken->getUser();
+
+        $providerKey = $this->container->getParameter('fos_user.firewall_name');
+        $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
+        $this->get('security.context')->setToken($token);
+        $event = new InteractiveLoginEvent($request, $token);
+        $this->get("event_dispatcher")->dispatch("security.authentication", $event);
+
+        return $this->redirect( $autologinToken->getUrl() );
+    }
+
     public function logoutAction()
     {
 

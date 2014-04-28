@@ -56,7 +56,6 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'MHRUser\Controller\Index'      => 'MHRUser\Controller\IndexController',
-            'MHRUser\Controller\Role'       => 'MHRUser\Controller\RoleController',
             'MHRUser\Controller\Register'   => 'MHRUser\Controller\RegisterController',
         ),
     ),

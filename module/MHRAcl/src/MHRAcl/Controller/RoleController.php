@@ -6,14 +6,14 @@
  * Time: 4:57 PM
  */
 
-namespace MHRUser\Controller;
+namespace MHRAcl\Controller;
 
 
 use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Doctrine\ORM\EntityManager;
-use MHRUser\Entity\Role;
+use MHRAcl\Entity\Role;
 
 class RoleController extends AbstractActionController
 {
@@ -38,14 +38,13 @@ class RoleController extends AbstractActionController
     {
         return new ViewModel(
             array(
-                'roles' => $this->getEntityManager()->getRepository('MHRUser\Entity\Role')->findAll()
+                'roles' => $this->getEntityManager()->getRepository('MHRAcl\Entity\Role')->findAll()
             )
         );
     }
 
     public function addAction()
     {
-
         $oForm = $this->getRoleForm();
 
         $entityManager = $this->getEntityManager();
@@ -58,12 +57,15 @@ class RoleController extends AbstractActionController
 
             if($oForm->isValid()) {
 
-                $oRole->setRoleName($this->getRequest()->getPost('name'));
+                $oRole->setRoleName($this->getRequest()->getPost('roleName'));
 
                 $entityManager->persist($oRole);
                 $entityManager->flush();
 
-                return $this->redirect()->toRoute('mhr-user');
+                return $this->redirect()->toRoute('mhr-acl/default', array(
+                    'action'     => 'add',
+                    'controller' => 'index'
+                    ));
             }
 
         }
@@ -83,16 +85,18 @@ class RoleController extends AbstractActionController
 
         $id = (int) $this->params()->fromRoute('id', 0);
 
-        $oRole = $entityManager->find('\MHRUser\Entity\Role', $id);
-
+        $oRole = $entityManager->find('\MHRAcl\Entity\Role', $id);
         if ($this->request->isPost()) {
 
-            $oRole->setRoleName($this->getRequest()->getPost('name'));
+            $oRole->setRoleName($this->getRequest()->getPost('roleName'));
 
             $this->getEntityManager()->persist($oRole);
             $this->getEntityManager()->flush();
 
-            return $this->redirect()->toRoute('mhr-role');
+            return $this->redirect()->toRoute('mhr-acl/default', array(
+                'action'     => 'index',
+                'controller' => 'role'
+            ));
         }
 
         $oForm->bind($oRole);
@@ -138,7 +142,7 @@ class RoleController extends AbstractActionController
     public function getRoleForm()
     {
         if (!$this->roleForm) {
-            $this->setRoleForm($this->getServiceLocator()->get('mhruser_role_form'));
+            $this->setRoleForm($this->getServiceLocator()->get('mhracl_role_form'));
         }
         return $this->roleForm;
     }

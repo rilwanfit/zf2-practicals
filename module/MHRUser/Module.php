@@ -76,10 +76,7 @@ class Module
                         ));
                         return $form;
                   },
-                  'mhruser_role_form' => function ($sm) {
-                        $oForm = new Form\Role(null);
-                        return $oForm;
-                    },
+
                   'mhruser_login_form' => function ($sm) {
                         $oForm = new Form\Login(null);
                         $oForm->setInputFilter(new Form\LoginFilter($sm));

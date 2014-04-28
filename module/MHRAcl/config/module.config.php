@@ -8,12 +8,39 @@
 return array(
     'router' => array(
         'routes' => array(
-
+            'mhr-acl' => array(
+                'type'    => 'literal',
+                'options' => array(
+                    'route'    => '/mhr-acl',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'MHRAcl\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '[-:controller][/:action][/:id]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         )
     ),
     'controllers' => array(
         'invokables' => array(
             'MHRAcl\Controller\Index'      => 'MHRAcl\Controller\IndexController',
+            'MHRAcl\Controller\Role'      => 'MHRAcl\Controller\RoleController',
         ),
     ),
     'view_manager' => array(

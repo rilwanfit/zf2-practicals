@@ -2,6 +2,8 @@ CREATE TABLE `role` (
   `rid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_name` varchar(45) NOT NULL,
   `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`rid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

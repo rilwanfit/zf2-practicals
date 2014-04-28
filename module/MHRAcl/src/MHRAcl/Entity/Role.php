@@ -50,9 +50,30 @@ class Role
     private $permissions;
 
 
+    /**
+     * @var string $createdAt
+     *
+     * @ORM\Column(name="created_at", type="date")
+     */
+    private $createdAt;
+
+    /**
+     * @var string $updatedAt
+     *
+     * @ORM\Column(name="updated_at", type="date")
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MHRUser\Entity\User", mappedBy="role")
+     **/
+    private $users;
+
+
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -102,6 +123,88 @@ class Role
     {
         return $this->status;
     }
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Role
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
 
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return Role
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Add users
+     *
+     * @param \MHRUser\Entity\User $users
+     * @return Role
+     */
+    public function addUser(\MHRUser\Entity\User $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \MHRUser\Entity\User $users
+     */
+    public function removeUser(\MHRUser\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
 
 }

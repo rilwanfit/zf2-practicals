@@ -61,18 +61,27 @@ class Module
                 $response->setStatusCode(302);
             } else {
                 $serviceManager = $e->getApplication()->getServiceManager();
-                $userRole = $session->offsetGet('roleName');
 
 
                 // check user logged into system
                 $auth = $this->serviceManager->get('doctrine.authenticationservice.orm_default');
-                if($auth->getIdentity()) {
+                if($user = $auth->getIdentity()) {
+                        echo 'Logged in as ' . $user->getFirstName();
+                    // Store it in session
                     $session = new Container('User');
-//                    $session->offsetSet('email', $data['email']);
-//                    $session->offsetSet('userId', $userDetails[0]['user_id']);
-//                    $session->offsetSet('roleId', $userDetails[0]['role_id']);
-//                    $session->offsetSet('roleName', $userDetails[0]['role_name']);
+                    $session->offsetSet('email', $user->getEmail());
+                    $session->offsetSet('userId', $user->getId());
+
+
+                    // TODO :: get role details
+                    $userRole = 'Administrator';
+
+                    //$session->offsetSet('roleId', $user->getId());
+                    //$session->offsetSet('roleName', $user->getId());
+                    //$userRole = $session->offsetGet('roleName');
+
                 } else {
+                    echo 'Not logged in';
                     $userRole = Acl::DEFAULT_ROLE;
                 }
 
@@ -83,6 +92,12 @@ class Module
 
                 $status = $acl->isAccessAllowed($userRole, $controller, $action);
                 if (! $status) {
+
+                    $response = $e->getResponse();
+                    //location to page or what ever
+                    $response->getHeaders()->addHeaderLine('Location', $e->getRequest()->getBaseUrl() . '/404');
+                    $response->setStatusCode(404);
+
                     die('Permission denied');
                 }
             }
@@ -123,6 +138,14 @@ class Module
                 'Acl' => function ($serviceManager)
                     {
                         return new Acl();
+                    },
+                'mhracl_role_form' => function ($sm) {
+                        $oForm = new Form\Role(null);
+                        return $oForm;
+                    },
+                'mhracl_managerole_form' => function ($sm) {
+                        $oForm = new Form\ManageRole(null);
+                        return $oForm;
                     },
             ),
         );
